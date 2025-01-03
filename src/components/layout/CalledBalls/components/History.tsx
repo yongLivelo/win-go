@@ -5,7 +5,7 @@ export default function History() {
     <>
       <div className="flex justify-around gap-4 rounded bg-slate-900 p-4">
         <div>
-          <div>Number of Calls</div>
+          <div>Number of Calsds</div>
           <div></div>
         </div>
         {/* <Button>Show History</Button> */}
