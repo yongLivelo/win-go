@@ -8,24 +8,22 @@ import Footer from "@/components/layout/Footer";
 function App() {
   return (
     <>
-      <div className="w-full bg-red-200 bg-cover text-white">
-        <Header />
-        <div className="grid h-screen grid-rows-4 gap-4 bg-slate-800 p-4 text-white md:grid-cols-3 md:grid-rows-3">
-          <div className="md:row-span-2">
-            <Pattern />
-          </div>
-          <div className="md:col-span-2 md:row-span-2">
-            <Monitor />
-          </div>
-          <div className="md:row-start-3">
-            <BallCaller />
-          </div>
-          <div className="md:col-span-2 md:row-start-3">
-            <CalledBalls />
-          </div>
+      <Header />
+      <div className="grid min-h-screen grid-cols-3 grid-rows-3 gap-4 overflow-auto bg-slate-800 p-4 text-white">
+        <div className="row-span-2">
+          <Pattern />
         </div>
-        <Footer />
+        <div className="col-span-2 row-span-2">
+          <Monitor />
+        </div>
+        <div className="row-start-3">
+          <BallCaller />
+        </div>
+        <div className="col-span-2 sm:row-start-3">
+          <CalledBalls />
+        </div>
       </div>
+      <Footer />
     </>
   );
 }

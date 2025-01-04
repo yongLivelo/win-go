@@ -1,18 +1,18 @@
 import Current from "./components/Current";
 import Recent from "./components/Recent";
-import History from "./components/History";
+import History from "./components/CalledCount";
 
 export default function CalledBalls() {
   return (
     <>
-      <div className="grid grid-cols-3 grid-rows-1 gap-2">
-        <div>
+      <div className="flex gap-2">
+        <div className="flex-1">
           <Current />
         </div>
-        <div>
+        <div className="flex-[2]">
           <Recent />
         </div>
-        <div>
+        <div className="flex-1">
           <History />
         </div>
       </div>
