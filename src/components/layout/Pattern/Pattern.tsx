@@ -1,6 +1,5 @@
 import { useAppContext } from "@/AppContext";
 import { cn } from "@/lib/utils";
-import { bingoColors } from "@/utils/bingo-colors";
 import { useEffect, useState } from "react";
 import { Circle } from "lucide-react";
 
@@ -43,8 +42,14 @@ export default function Pattern() {
         <div key={index} className="flex flex-1 flex-col">
           <div
             className={cn(
-              "flex aspect-square flex-1 items-center justify-center bg-slate-600 text-4xl",
-              bingoColors[letter],
+              `flex aspect-square flex-1 items-center justify-center bg-slate-600 text-4xl`,
+              {
+                "bg-red-500": letter === "B",
+                "bg-yellow-500": letter === "I",
+                "bg-green-500": letter === "N",
+                "bg-blue-500": letter === "G",
+                "bg-violet-500": letter === "O",
+              },
             )}
           >
             {letter}

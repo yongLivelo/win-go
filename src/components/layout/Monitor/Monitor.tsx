@@ -25,8 +25,14 @@ export default function Monitor() {
           >
             <div
               className={cn(
-                "text-3x flex flex-1 items-center justify-center p-2",
-                bingoColors[letter],
+                `text-3x flex flex-1 items-center justify-center p-2`,
+                {
+                  "bg-red-500": letter === "B",
+                  "bg-yellow-500": letter === "I",
+                  "bg-green-500": letter === "N",
+                  "bg-blue-500": letter === "G",
+                  "bg-violet-500": letter === "O",
+                },
               )}
             >
               {letter}

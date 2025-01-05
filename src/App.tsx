@@ -5,11 +5,11 @@ import BallCaller from "@/components/layout/BallCaller";
 import CalledBalls from "@/components/layout/CalledBalls";
 import Footer from "@/components/layout/Footer";
 
-function App() {
+export default function App() {
   return (
     <>
       <Header />
-      <div className="grid min-h-screen grid-cols-3 grid-rows-3 gap-4 overflow-auto bg-slate-800 p-4 text-white">
+      <div className="grid min-h-screen grid-cols-3 grid-rows-3 gap-4 overflow-auto overflow-hidden bg-slate-800 p-4 text-white">
         <div className="row-span-2">
           <Pattern />
         </div>
@@ -27,5 +27,3 @@ function App() {
     </>
   );
 }
-
-export default App;
