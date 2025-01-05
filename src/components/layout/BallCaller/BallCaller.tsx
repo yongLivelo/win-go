@@ -4,14 +4,20 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { renderBall } from "@/utils/renderBall";
 import useInterval from "@/hooks/useInterval";
+import { timeout } from "@/utils/timeout";
+import bingoShaker from "@/assets/bingo-shake.mp3";
 
 export default function BallCaller() {
   const { calledBalls, setCalledBalls, enabledLetters } = useAppContext()!;
   const bingoNumbers = useRef(Array.from({ length: 75 }, (_, i) => i + 1));
+  const [speaking, setSpeaking] = useState<boolean>(false);
+
   const [isAutoCalling, setisAutoCalling] = useState<boolean>(false);
   const [autoCallingInterval, setAutoCallingInterval] = useState<number>(1000);
 
-  const callBall = () => {
+  const callBall = async () => {
+    if (speaking) return;
+
     const calledBall =
       bingoNumbers.current[
         Math.floor(Math.random() * bingoNumbers.current.length)
@@ -19,13 +25,42 @@ export default function BallCaller() {
     bingoNumbers.current.splice(bingoNumbers.current.indexOf(calledBall), 1);
 
     if (calledBall) {
-      setCalledBalls([...calledBalls, calledBall]);
+      setCalledBalls((prev) => [...prev, calledBall]);
+      setSpeaking(true);
+      await playShakeAndVoice(calledBall);
+      if (isAutoCalling) await timeout(autoCallingInterval);
+      setSpeaking(false);
     }
   };
 
+  const playShakeAndVoice = (calledBall: number) => {
+    return new Promise(async (resolve) => {
+      const audio = new Audio(bingoShaker);
+      await audio.play();
+      await timeout(audio.duration * 1000);
+
+      const utterance = new SpeechSynthesisUtterance(
+        renderBall(calledBall) + calledBall,
+      );
+      utterance.voice = speechSynthesis.getVoices()[0];
+      speechSynthesis.speak(utterance);
+      utterance.onend = resolve;
+    });
+  };
+
   const resetBalls = () => {
-    setCalledBalls([]);
-    bingoNumbers.current = Array.from({ length: 75 }, (_, i) => i + 1);
+    if (confirm("Are you sure you want to reset the balls")) {
+      setCalledBalls([]);
+      const filteredBingoNumbers = Array.from(
+        { length: 75 },
+        (_, i) => i + 1,
+      ).filter(
+        (number) =>
+          enabledLetters.includes(renderBall(number)) &&
+          !calledBalls.includes(number),
+      );
+      bingoNumbers.current = filteredBingoNumbers;
+    }
   };
 
   useEffect(() => {
@@ -40,7 +75,7 @@ export default function BallCaller() {
     bingoNumbers.current = filteredBingoNumbers;
   }, [enabledLetters]);
 
-  useInterval(callBall, autoCallingInterval, isAutoCalling);
+  useInterval(callBall, 100, isAutoCalling);
 
   const toggleAutoCall = () => {
     setisAutoCalling(!isAutoCalling);
@@ -49,10 +84,18 @@ export default function BallCaller() {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-1 gap-2">
-        <Button onClick={callBall} className="flex-1" disabled={isAutoCalling}>
+        <Button
+          onClick={callBall}
+          className="flex-1"
+          disabled={isAutoCalling || speaking}
+        >
           Call
         </Button>
-        <Button onClick={resetBalls} className="flex-1">
+        <Button
+          onClick={resetBalls}
+          className="flex-1"
+          disabled={isAutoCalling}
+        >
           Reset
         </Button>
       </div>

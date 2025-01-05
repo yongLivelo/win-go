@@ -9,7 +9,7 @@ export default function App() {
   return (
     <>
       <Header />
-      <div className="grid min-h-screen grid-cols-3 grid-rows-3 gap-4 overflow-auto overflow-hidden bg-slate-800 p-4 text-white">
+      <div className="grid min-h-screen grid-cols-3 grid-rows-3 gap-4 bg-slate-800 p-4 text-white">
         <div className="row-span-2">
           <Pattern />
         </div>

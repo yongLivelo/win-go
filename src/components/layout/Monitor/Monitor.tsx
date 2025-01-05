@@ -1,7 +1,5 @@
-// import { useAppContext } from "@/AppContext";
 import { useAppContext } from "@/AppContext";
 import { cn } from "@/lib/utils";
-import { bingoColors } from "@/utils/bingo-colors";
 
 export default function Monitor() {
   const { calledBalls, enabledLetters } = useAppContext()!;
