@@ -25,7 +25,7 @@ export default function BallCaller() {
     bingoNumbers.current.splice(bingoNumbers.current.indexOf(calledBall), 1);
 
     if (calledBall) {
-      setCalledBalls((prev) => [...prev, calledBall]);
+      setCalledBalls([...calledBalls, calledBall]);
       setSpeaking(true);
       await playShakeAndVoice(calledBall);
       if (isAutoCalling) await timeout(autoCallingInterval);
